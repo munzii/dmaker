@@ -1,5 +1,6 @@
 package com.munzii.programming.dmaker.dto;
 
+import com.munzii.programming.dmaker.entity.Developer;
 import com.munzii.programming.dmaker.type.DeveloperLevel;
 import com.munzii.programming.dmaker.type.DeveloperSkillType;
 import lombok.*;
@@ -46,7 +47,15 @@ public class CreateDeveloper {
         private DeveloperLevel developerLevel;
         private DeveloperSkillType developerSkillType;
         private Integer experienceYears;
-
         private  String memberId;
+
+        public static Response fromEntity(Developer developer) {
+            return Response.builder()
+                    .developerLevel(developer.getDeveloperLevel())
+                    .developerSkillType(developer.getDeveloperSkillType())
+                    .experienceYears(developer.getExperienceYears())
+                    .memberId(developer.getMemberId())
+                    .build();
+        }
     }
 }
