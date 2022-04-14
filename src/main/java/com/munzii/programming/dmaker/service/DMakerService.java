@@ -1,6 +1,8 @@
 package com.munzii.programming.dmaker.service;
 
 import com.munzii.programming.dmaker.dto.CreateDeveloper;
+import com.munzii.programming.dmaker.dto.DeveloperDetailDto;
+import com.munzii.programming.dmaker.dto.DeveloperDto;
 import com.munzii.programming.dmaker.entity.Developer;
 import com.munzii.programming.dmaker.exception.DMakerErrorCode;
 import com.munzii.programming.dmaker.exception.DMakerException;
@@ -13,10 +15,11 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
-import static com.munzii.programming.dmaker.exception.DMakerErrorCode.DUPLICATED_MEMBER_ID;
-import static com.munzii.programming.dmaker.exception.DMakerErrorCode.LEVEL_EXPERIENCE_YEARS_NOT_MATCHED;
+import static com.munzii.programming.dmaker.exception.DMakerErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
@@ -54,4 +57,12 @@ public class DMakerService {
         }));
     }
 
+    public List<DeveloperDto> getAllDevelopers() {
+        return developerRepository.findAll().stream().map(DeveloperDto::fromEntity).collect(Collectors.toList());
+    }
+
+    public DeveloperDetailDto getDeveloperDetail(String memberId) {
+        return developerRepository.findByMemberId(memberId)
+                .map(DeveloperDetailDto::fromEntity).orElseThrow(() -> new DMakerException(NO_DEVELOPER));
+    }
 }
