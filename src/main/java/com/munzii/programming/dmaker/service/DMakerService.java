@@ -3,6 +3,7 @@ package com.munzii.programming.dmaker.service;
 import com.munzii.programming.dmaker.dto.CreateDeveloper;
 import com.munzii.programming.dmaker.dto.DeveloperDetailDto;
 import com.munzii.programming.dmaker.dto.DeveloperDto;
+import com.munzii.programming.dmaker.dto.EditDeveloper;
 import com.munzii.programming.dmaker.entity.Developer;
 import com.munzii.programming.dmaker.exception.DMakerErrorCode;
 import com.munzii.programming.dmaker.exception.DMakerException;
@@ -43,6 +44,9 @@ public class DMakerService {
     }
 
     private void validateCreateDeveloperRequest(CreateDeveloper.Request request) {
+        DeveloperLevel developerLevel = request.getDeveloperLevel();
+        Integer experienceYears = request.getExperienceYears();
+
         if(request.getDeveloperLevel() == DeveloperLevel.SENIOR && request.getExperienceYears() <10) {
             throw new DMakerException(LEVEL_EXPERIENCE_YEARS_NOT_MATCHED);
         }
@@ -64,5 +68,15 @@ public class DMakerService {
     public DeveloperDetailDto getDeveloperDetail(String memberId) {
         return developerRepository.findByMemberId(memberId)
                 .map(DeveloperDetailDto::fromEntity).orElseThrow(() -> new DMakerException(NO_DEVELOPER));
+    }
+
+    public DeveloperDetailDto editDeveloper(String memberId, EditDeveloper.Request request) {
+        validateEditDeveloperRequest(request);
+    }
+
+    private void validateEditDeveloperRequest(EditDeveloper.Request request) {
+        DeveloperLevel developerLevel = request.getDeveloperLevel();
+        Integer experienceYears = request.getExperienceYears();
+
     }
 }

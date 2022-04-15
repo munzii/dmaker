@@ -3,6 +3,7 @@ package com.munzii.programming.dmaker.controller;
 import com.munzii.programming.dmaker.dto.CreateDeveloper;
 import com.munzii.programming.dmaker.dto.DeveloperDetailDto;
 import com.munzii.programming.dmaker.dto.DeveloperDto;
+import com.munzii.programming.dmaker.dto.EditDeveloper;
 import com.munzii.programming.dmaker.service.DMakerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,8 +28,8 @@ public class DMakerController {
     }
 
     @GetMapping("/developer/{memberId}")
-    public DeveloperDetailDto getAllDeveloperDetail(
-            @PathVariable String MemberId
+    public DeveloperDetailDto getDeveloperDetail(
+            @PathVariable String memberId
     ) {
         log.info("GET /developers HTTP/1.1");
 
@@ -43,5 +44,15 @@ public class DMakerController {
 
         return dMakerService.createDeveloper(request);
 
+    }
+
+    @PutMapping("/developer/{memberId}")
+    public DeveloperDetailDto editDeveloperDetail(
+            @PathVariable String memberId,
+            @Valid @RequestBody EditDeveloper.Request request
+    ) {
+        log.info("GET /developers HTTP/1.1");
+
+        return dMakerService.editDeveloper(memberId, request);
     }
 }
