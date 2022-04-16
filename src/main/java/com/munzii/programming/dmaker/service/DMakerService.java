@@ -44,18 +44,7 @@ public class DMakerService {
     }
 
     private void validateCreateDeveloperRequest(CreateDeveloper.Request request) {
-        DeveloperLevel developerLevel = request.getDeveloperLevel();
-        Integer experienceYears = request.getExperienceYears();
-
-        if(request.getDeveloperLevel() == DeveloperLevel.SENIOR && request.getExperienceYears() <10) {
-            throw new DMakerException(LEVEL_EXPERIENCE_YEARS_NOT_MATCHED);
-        }
-        if(request.getDeveloperLevel() == DeveloperLevel.JUNGNIOR && (request.getExperienceYears() <4 || request.getExperienceYears() >10)) {
-            throw new DMakerException(LEVEL_EXPERIENCE_YEARS_NOT_MATCHED);
-        }
-        if(request.getDeveloperLevel() == DeveloperLevel.JUNIOR && request.getExperienceYears() >4) {
-            throw new DMakerException(LEVEL_EXPERIENCE_YEARS_NOT_MATCHED);
-        }
+        validateDeveloperLevel(request.getDeveloperLevel(), request.getExperienceYears());
 
         developerRepository.findByMemberId(request.getMemberId()).ifPresent((developer -> {throw new DMakerException(DUPLICATED_MEMBER_ID);
         }));
@@ -78,5 +67,19 @@ public class DMakerService {
         DeveloperLevel developerLevel = request.getDeveloperLevel();
         Integer experienceYears = request.getExperienceYears();
 
+        validateDeveloperLevel(developerLevel, experienceYears);
+
+    }
+
+    private void validateDeveloperLevel(DeveloperLevel developerLevel, Integer experienceYears) {
+        if(developerLevel == DeveloperLevel.SENIOR && experienceYears <10) {
+            throw new DMakerException(LEVEL_EXPERIENCE_YEARS_NOT_MATCHED);
+        }
+        if(developerLevel == DeveloperLevel.JUNGNIOR && (experienceYears <4 || experienceYears >10)) {
+            throw new DMakerException(LEVEL_EXPERIENCE_YEARS_NOT_MATCHED);
+        }
+        if(developerLevel == DeveloperLevel.JUNIOR && experienceYears >4) {
+            throw new DMakerException(LEVEL_EXPERIENCE_YEARS_NOT_MATCHED);
+        }
     }
 }
