@@ -59,16 +59,22 @@ public class DMakerService {
                 .map(DeveloperDetailDto::fromEntity).orElseThrow(() -> new DMakerException(NO_DEVELOPER));
     }
 
+    @Transactional
     public DeveloperDetailDto editDeveloper(String memberId, EditDeveloper.Request request) {
-        validateEditDeveloperRequest(request);
+        validateEditDeveloperRequest(request, memberId);
+
+        Developer developer = developerRepository.findByMemberId(memberId).orElseThrow(() -> new DMakerException(NO_DEVELOPER));
+
+        developer.setDeveloperLevel(request.getDeveloperLevel());
+        developer.setDeveloperSkillType(request.getDeveloperSkillType());
+        developer.setExperienceYears(request.getExperienceYears());
+
+        return DeveloperDetailDto.fromEntity(developer);
+
     }
 
-    private void validateEditDeveloperRequest(EditDeveloper.Request request) {
-        DeveloperLevel developerLevel = request.getDeveloperLevel();
-        Integer experienceYears = request.getExperienceYears();
-
-        validateDeveloperLevel(developerLevel, experienceYears);
-
+    private void validateEditDeveloperRequest(EditDeveloper.Request request, String memberId) {
+        validateDeveloperLevel(request.getDeveloperLevel(), request.getExperienceYears());
     }
 
     private void validateDeveloperLevel(DeveloperLevel developerLevel, Integer experienceYears) {
