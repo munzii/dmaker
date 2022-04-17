@@ -1,5 +1,6 @@
 package com.munzii.programming.dmaker.service;
 
+import com.munzii.programming.dmaker.code.StatusCode;
 import com.munzii.programming.dmaker.dto.CreateDeveloper;
 import com.munzii.programming.dmaker.dto.DeveloperDetailDto;
 import com.munzii.programming.dmaker.dto.DeveloperDto;
@@ -35,6 +36,8 @@ public class DMakerService {
                 .developerLevel(request.getDeveloperLevel())
                 .developerSkillType(request.getDeveloperSkillType())
                 .experienceYears(request.getExperienceYears())
+                .memberId(request.getMemberId())
+                .statusCode(StatusCode.EMPLOYED)
                 .name(request.getName())
                 .age(request.getAge())
                 .build();
@@ -87,5 +90,10 @@ public class DMakerService {
         if(developerLevel == DeveloperLevel.JUNIOR && experienceYears >4) {
             throw new DMakerException(LEVEL_EXPERIENCE_YEARS_NOT_MATCHED);
         }
+    }
+
+    @Transactional
+    public DeveloperDetailDto deleteDevelope(String memberId) {
+
     }
 }
