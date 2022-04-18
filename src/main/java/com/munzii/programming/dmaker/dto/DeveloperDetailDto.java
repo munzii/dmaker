@@ -1,5 +1,6 @@
 package com.munzii.programming.dmaker.dto;
 
+import com.munzii.programming.dmaker.code.StatusCode;
 import com.munzii.programming.dmaker.entity.Developer;
 import com.munzii.programming.dmaker.type.DeveloperLevel;
 import com.munzii.programming.dmaker.type.DeveloperSkillType;
@@ -15,6 +16,7 @@ public class DeveloperDetailDto {
     private DeveloperSkillType developerSkillType;
     private Integer experienceYears;
     private String memberId;
+    private StatusCode statusCode;
     private String name;
     private Integer age;
 
@@ -24,6 +26,7 @@ public class DeveloperDetailDto {
                 .developerSkillType(developer.getDeveloperSkillType())
                 .experienceYears(developer.getExperienceYears())
                 .memberId(developer.getMemberId())
+                .statusCode(developer.getStatusCode())
                 .name(developer.getName())
                 .age(developer.getAge())
                 .build();
