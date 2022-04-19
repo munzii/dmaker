@@ -1,14 +1,13 @@
 package com.munzii.programming.dmaker.controller;
 
-import com.munzii.programming.dmaker.dto.CreateDeveloper;
-import com.munzii.programming.dmaker.dto.DeveloperDetailDto;
-import com.munzii.programming.dmaker.dto.DeveloperDto;
-import com.munzii.programming.dmaker.dto.EditDeveloper;
+import com.munzii.programming.dmaker.dto.*;
+import com.munzii.programming.dmaker.exception.DMakerException;
 import com.munzii.programming.dmaker.service.DMakerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -59,5 +58,14 @@ public class DMakerController {
         @PathVariable String memberId
     ) {
         return dMakerService.deleteDevelope(memberId);
+    }
+
+    @ExceptionHandler(DMakerException.class)
+    public DMakerErrorResponse handleException(DMakerException e, HttpServletRequest request) {
+        log.error("errorCode: {}, url: {}, message: {}", e.getDMakerErrorCode(), request.getRequestURI(), e.getDetailMessage());
+
+        return DMakerErrorResponse.builder().errorCode(e.getDMakerErrorCode())
+                .errorMessage(e.getDetailMessage())
+                .build();
     }
 }
