@@ -58,4 +58,19 @@ class DMakerServiceTest {
         assertEquals(12, developerDetail.getExperienceYears());
     }
 
+    @Test
+    void createDevelopertest_success() {
+        CreateDeveloper.Request request = CreateDeveloper.Request.builder()
+                .developerLevel(SENIOR)
+                .developerSkillType(FRONT_END)
+                .experienceYears(12)
+                .memberId("memberId")
+                .name("name")
+                .age(32)
+                .build();
+        given(developerRepository.findByMemberId(anyString())).willReturn(Optional.ofNullable(null));
+
+        dMakerService.createDeveloper(request);
+    }
+
 }
