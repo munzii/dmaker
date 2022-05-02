@@ -55,12 +55,14 @@ public class DMakerService {
         throw new ArrayIndexOutOfBoundsException();
     }
 
+    @Transactional
     public List<DeveloperDto> getAllEmployedDevelopers() {
         return developerRepository.findDevelopersByStatusCodeEquals(StatusCode.EMPLOYED)
                 .stream().map(DeveloperDto::fromEntity)
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public DeveloperDetailDto getDeveloperDetail(String memberId) {
         return developerRepository.findByMemberId(memberId)
                 .map(DeveloperDetailDto::fromEntity).orElseThrow(() -> new DMakerException(NO_DEVELOPER));
