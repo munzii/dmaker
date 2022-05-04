@@ -63,7 +63,7 @@ public class DMakerService {
                 .collect(Collectors.toList());
     }
 
-    @org.springframework.transaction.annotation.Transactional
+    @org.springframework.transaction.annotation.Transactional(readOnly = true)
     public DeveloperDetailDto getDeveloperDetail(String memberId) {
         return developerRepository.findByMemberId(memberId)
                 .map(DeveloperDetailDto::fromEntity).orElseThrow(() -> new DMakerException(NO_DEVELOPER));
@@ -71,7 +71,7 @@ public class DMakerService {
 
     @Transactional
     public DeveloperDetailDto editDeveloper(String memberId, EditDeveloper.Request request) {
-        validateEditDeveloperRequest(request, memberId);
+        validateDeveloperLevel(request.getDeveloperLevel(), request.getExperienceYears());
 
         Developer developer = developerRepository.findByMemberId(memberId)
                 .orElseThrow(() -> new DMakerException(NO_DEVELOPER));
@@ -82,10 +82,6 @@ public class DMakerService {
 
         return DeveloperDetailDto.fromEntity(developer);
 
-    }
-
-    private void validateEditDeveloperRequest(EditDeveloper.Request request, String memberId) {
-        validateDeveloperLevel(request.getDeveloperLevel(), request.getExperienceYears());
     }
 
     private void validateDeveloperLevel(DeveloperLevel developerLevel, Integer experienceYears) {
