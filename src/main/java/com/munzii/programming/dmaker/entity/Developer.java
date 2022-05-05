@@ -1,6 +1,7 @@
 package com.munzii.programming.dmaker.entity;
 
 import com.munzii.programming.dmaker.code.StatusCode;
+import com.munzii.programming.dmaker.dto.CreateDeveloper;
 import com.munzii.programming.dmaker.type.DeveloperLevel;
 import com.munzii.programming.dmaker.type.DeveloperSkillType;
 import lombok.*;

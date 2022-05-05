@@ -32,9 +32,6 @@ class DMakerServiceTest {
     @Mock
     private DeveloperRepository developerRepository;
 
-    @Mock
-    private RetiredDeveloperRepository retiredDeveloperRepository;
-
     @InjectMocks
     private DMakerService dMakerService;
 
@@ -73,7 +70,7 @@ class DMakerServiceTest {
         given(developerRepository.findByMemberId(anyString())).willReturn(Optional.ofNullable(null));
         ArgumentCaptor<Developer> captor = ArgumentCaptor.forClass(Developer.class);
 
-        CreateDeveloper.Response developer = dMakerService.createDeveloper(defaultCreateRequest);
+        dMakerService.createDeveloper(defaultCreateRequest);
 
         verify(developerRepository, times(1)).save(captor.capture());
         Developer savedDeveloper = captor.getValue();

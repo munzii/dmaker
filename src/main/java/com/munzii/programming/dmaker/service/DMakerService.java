@@ -32,7 +32,14 @@ public class DMakerService {
     public CreateDeveloper.Response createDeveloper(CreateDeveloper.Request request) {
         validateCreateDeveloperRequest(request);
 
-        Developer developer = Developer.builder()
+        Developer developer = createDeveloperFromReqeust(request);
+
+        developerRepository.save(developer);
+        return CreateDeveloper.Response.fromEntity(developer);
+    }
+
+    private Developer createDeveloperFromReqeust(CreateDeveloper.Request request) {
+        return Developer.builder()
                 .developerLevel(request.getDeveloperLevel())
                 .developerSkillType(request.getDeveloperSkillType())
                 .experienceYears(request.getExperienceYears())
@@ -41,9 +48,6 @@ public class DMakerService {
                 .name(request.getName())
                 .age(request.getAge())
                 .build();
-
-        developerRepository.save(developer);
-        return CreateDeveloper.Response.fromEntity(developer);
     }
 
     private void validateCreateDeveloperRequest(@NonNull CreateDeveloper.Request request) {
