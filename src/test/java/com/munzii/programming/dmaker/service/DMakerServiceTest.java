@@ -21,6 +21,7 @@ import static com.munzii.programming.dmaker.exception.DMakerErrorCode.DUPLICATED
 import static com.munzii.programming.dmaker.type.DeveloperLevel.SENIOR;
 import static com.munzii.programming.dmaker.type.DeveloperSkillType.FRONT_END;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
@@ -66,8 +67,9 @@ class DMakerServiceTest {
     }
 
     @Test
-    void createDevelopertest_success() {
+    void createDeveloperTest_success() {
         given(developerRepository.findByMemberId(anyString())).willReturn(Optional.ofNullable(null));
+        given(developerRepository.save(any())).willReturn(defaultDeveloper);
         ArgumentCaptor<Developer> captor = ArgumentCaptor.forClass(Developer.class);
 
         dMakerService.createDeveloper(defaultCreateRequest);
@@ -82,7 +84,7 @@ class DMakerServiceTest {
     }
 
     @Test
-    void createDevelopertest_failed_with_duplicated() {
+    void createDeveloperTest_failed_with_duplicated() {
         given(developerRepository.findByMemberId(anyString())).willReturn(Optional.ofNullable(null));
 
         DMakerException dMakerException = assertThrows(DMakerException.class, () ->

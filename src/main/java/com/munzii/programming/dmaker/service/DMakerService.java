@@ -32,13 +32,10 @@ public class DMakerService {
     public CreateDeveloper.Response createDeveloper(CreateDeveloper.Request request) {
         validateCreateDeveloperRequest(request);
 
-        Developer developer = createDeveloperFromReqeust(request);
-
-        developerRepository.save(developer);
-        return CreateDeveloper.Response.fromEntity(developer);
+        return CreateDeveloper.Response.fromEntity(developerRepository.save(createDeveloperFromRequest(request)));
     }
 
-    private Developer createDeveloperFromReqeust(CreateDeveloper.Request request) {
+    private Developer createDeveloperFromRequest(CreateDeveloper.Request request) {
         return Developer.builder()
                 .developerLevel(request.getDeveloperLevel())
                 .developerSkillType(request.getDeveloperSkillType())
